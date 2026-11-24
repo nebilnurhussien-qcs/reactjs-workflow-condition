@@ -35,12 +35,4 @@ jobs:
         id: step-result
         run: echo "step-result=success" >> $GITHUB_OUTPUT
 
-  print-output:
-    needs: deploy
-    runs-on: ubuntu-slim
-    steps:
-      - name: getting output
-        run: echo ${{ needs.deploy.outputs.result }}
-        
-
       
