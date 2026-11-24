@@ -1,12 +1,15 @@
 name: reuse workflow example
 on: 
-  workflow_call:
-    inputs:
+  workflow_call: #This is used when you want workflow to trigger when making call from seperate workflow
+    inputs: #Allows you to add inputs when you call from workflow
       artifact-name: 
         description: name of the artifact
         required: false
         default: dist
         type: string
+    #secrets:  #Allows you to add secrets
+      #password:
+        #required: true
 jobs:
   deploy:
     runs-on: ubuntu-slim
