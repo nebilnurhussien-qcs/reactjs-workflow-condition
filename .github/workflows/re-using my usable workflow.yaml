@@ -1,4 +1,4 @@
-name: Test and Build Workflow
+name: reuse workflow example
 on:
   push:
     branches:
