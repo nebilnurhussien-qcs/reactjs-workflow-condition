@@ -73,4 +73,6 @@ jobs:
     needs: build
     uses: ./.github/workflows/reuse.yaml #Allows me to re-use workflows
     with:
-      artifact-name: dist-files
+      artifact-name: dist-files #Makes me add the input shown on the workflow
+      #secrets: #Allows me to add secrets to the workflow
+        #password: ${{ secrets.password }}
