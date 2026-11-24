@@ -10,8 +10,14 @@ on:
     #secrets:  #Allows you to add secrets
       #password:
         #required: true
+    outputs:
+      result: 
+        description: your result name
+        value: ${{ jobs.deploy.outputs.outcome }}
 jobs:
   deploy:
+    outputs:
+      outcome: ${{ steps.step-result.outputs.step-result }}
     runs-on: ubuntu-slim
     env:
       artifact-name: ${{ inputs.artifact-name }}
@@ -25,6 +31,16 @@ jobs:
           echo "Artifact file name: ${{ env.artifact-name }}"
       - name: list artifact name
         run: ls
+      - name: set the outputs
+        id: step-result
+        run: echo "step-result=success" >> $GITHUB_OUTPUT
+
+  print-output:
+    needs: deploy
+    runs-on: ubuntu-slim
+    steps:
+      - name: getting output
+        run: echo ${{ needs.deploy.output.result }}
         
 
       
