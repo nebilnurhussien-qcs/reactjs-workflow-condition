@@ -39,7 +39,8 @@ jobs:
         id: npm-tests
         run: npm run test
       - name: Upload test report
-        if: steps.npm-tests.outcome == 'failure' #If test failed this test will run
+        #if: steps.npm-tests.outcome == 'failure' #If test failed this test will run
+        if: always() #executes the step no matter the outcome of the previous one
         uses: actions/upload-artifact@v6
         with:
           name: test-report
