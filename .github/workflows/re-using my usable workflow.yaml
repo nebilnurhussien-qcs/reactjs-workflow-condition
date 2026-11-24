@@ -81,5 +81,5 @@ jobs:
     runs-on: ubuntu-slim
     steps:
       - name: getting output
-        run: echo ${{ needs.deploy.outputs.result }}
+        run: echo ${{ needs.deploy.outputs.result }} #Here we are fetching the value of the output once step is complete
         
