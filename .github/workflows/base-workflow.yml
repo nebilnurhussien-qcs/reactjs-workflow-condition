@@ -47,6 +47,7 @@ jobs:
           path: test.json
   build:
     needs: test
+    if: always() #This will execute whether the test passes or fails
     runs-on: ubuntu-latest
     steps:
       - name: Get code
