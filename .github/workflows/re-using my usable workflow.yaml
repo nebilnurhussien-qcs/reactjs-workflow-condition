@@ -71,7 +71,4 @@ jobs:
           path: dist
   deploy:
     needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: re-usable fetch
-        uses: ./.github/workflows/reuse.yaml #Allows me to re-use workflows
+    uses: ./.github/workflows/reuse.yaml #Allows me to re-use workflows
