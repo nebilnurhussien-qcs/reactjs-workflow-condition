@@ -10,14 +10,14 @@ on:
     #secrets:  #Allows you to add secrets
       #password:
         #required: true
-    outputs:
+    outputs: #Allows us to add outputs to the workflow call
       result: 
         description: your result name
-        value: ${{ jobs.deploy.outputs.outcome }}
+        value: ${{ jobs.deploy.outputs.outcome }} #Fetching the value of the output once jobs has been executed
 jobs:
   deploy:
     outputs:
-      outcome: ${{ steps.step-result.outputs.step-result }}
+      outcome: ${{ steps.step-result.outputs.step-result }} #Fetching the value once the step has complete
     runs-on: ubuntu-slim
     env:
       artifact-name: ${{ inputs.artifact-name }}
@@ -33,6 +33,6 @@ jobs:
         run: ls
       - name: set the outputs
         id: step-result
-        run: echo "step-result=success" >> $GITHUB_OUTPUT
+        run: echo "step-result=success" >> $GITHUB_OUTPUT #Assigns value to github envrionment variable 
 
       
