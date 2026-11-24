@@ -1,10 +1,27 @@
 name: reuse workflow example
-on: workflow_call
+on: 
+  workflow_call:
+    inputs:
+      artifact-name: 
+        description: name of the artifact
+        required: false
+        default: dist
+        type: string
 jobs:
   deploy:
     runs-on: ubuntu-slim
+    env:
+      artifact-name: ${{ inputs.artifact-name }}
     steps:
+      - name: get artifact
+        uses: actions/download-artifact@v5
+        with:
+          name: ${{ inputs.artifact-name }}
       - name: output data
-        run: echo "Hello From reusable workflow!"
+        run:  |
+          echo "Artifact file name: ${{ env.artifact-name }}"
+      - name: list artifact name
+        run: ls
+        
 
       
