@@ -1,0 +1,77 @@
+name: Test and Build Workflow
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v6
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v5
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        run: npm install
+      - name: Lint code
+        run: npm run lint
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v6
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v5
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        run: npm install
+      - name: Test code
+        #continue-on-error: true #This will allow you to execute next step and job even if this step fails
+        id: npm-tests
+        run: npm run test
+      - name: Upload test report
+        #if: steps.npm-tests.outcome == 'failure' #If test failed this test will run
+        #if: always() #executes the step no matter the outcome of the previous one
+        uses: actions/upload-artifact@v6
+        with:
+          name: test-report
+          path: test.json
+  build:
+    needs: test
+    #if: always() #This will execute whether the test passes or fails
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v6
+      - name: Cache dependencies
+        id: cache
+        uses: actions/cache@v5
+        with:
+          path: ~/.npm
+          key: deps-node-modules-${{ hashFiles('**/package-lock.json') }}
+      - name: Install dependencies
+        run: npm install
+      - name: Build website
+        id: build-website
+        run: npm run build
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v6
+        with:
+          name: dist-files
+          path: dist
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: re-usable fetch
+        uses: ./.github/workflows/reuse.yaml #Allows me to re-use workflows
