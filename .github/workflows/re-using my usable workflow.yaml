@@ -76,3 +76,10 @@ jobs:
       artifact-name: dist-files #Makes me add the input shown on the workflow
       #secrets: #Allows me to add secrets to the workflow
         #password: ${{ secrets.password }}
+  print-output:
+    needs: deploy
+    runs-on: ubuntu-slim
+    steps:
+      - name: getting output
+        run: echo ${{ needs.deploy.outputs.result }}
+        
