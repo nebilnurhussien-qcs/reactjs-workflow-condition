@@ -4,11 +4,11 @@ jobs:
   build:
     strategy:
       matrix:
-        node-version: [12,14]
-        operating-system: [ubuntu-slim, windows-latest]
-        include:
+        node-version: [12,14] #Allows you to run steps on different versions
+        operating-system: [ubuntu-slim, windows-latest] #Allows you to run steps on OS
+        include: #Allows you to add other version or OS
           - node-version: 16
-        exclude:
+        exclude: #Allows you to remove other versions or OS
           - operating-system: ubuntu-slim
     runs-on: ubuntu-latest
     steps:
